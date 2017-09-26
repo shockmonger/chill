@@ -27,4 +27,23 @@ def calcEn(sound):
 
 
 def ratioCalc(ide):
-	x, sr = librosa.load()
+	fil = ide
+	x, sr = librosa.load(fil)
+	rmse = librosa.feature.rmse(x)[0]
+	beforec = np.mean(rmse[0:len(rmse)/2])
+	afterc = np.mean(rmse[len(rmse)/2+1:])
+	return{'before': beforec,'after':afterc}
+
+
+def onsetDense(ide):
+	fil = ide
+	x, sr = librosa.load(fil)
+	xbef = x[0:len(x)/2]
+	xaft = x[len(x)/2+1:]
+	onsetsbef = librosa.onset.onset_detect(xbef,sr=sr, hop_length=hop_length,pre_max=20,post_max=20,pre_avg=100,post_avg=100,delta=0.2,wait=0)
+	onsetsaft = librosa.onset.onset_detect(xaft,sr=sr, hop_length=hop_length, 
+		pre_max=20,post_max=20,pre_avg=100,post_avg=100,delta=0.2,wait=0)
+	# beforec = sum(len(onsets[0:len(onsets)/2]))
+	# afterc = sum(len(onsets[len(onsets)/2+1:]))
+	return{'before': len(onsetsbef),'after':len(onsetsaft)}
+
