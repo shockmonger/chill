@@ -11,9 +11,25 @@ frame_length = 1024
 
 
 parts = os.listdir("/home/tejaswik/Documents/CurrentProjects/chills/indivData/")
+for i in range(len(parts)):
+    parts[i] = parts[i][:-5]
+
 fil = '/home/tejaswik/Documents/CurrentProjects/chills/'
 songsel = {0 : 's1', 1 : 's2', 2 : 's3'}
 length = 1241
+    
+
+eachSong = []
+p = []
+s = []
+for i in range(len(parts)):
+    for j in range(0,3,1):
+        p.append(parts[i])
+        s.append(songsel[j])
+        eachSong = zip(p,s)
+        
+eachSong = pd.DataFrame(eachSong, columns=['folder', 'song'])
+eachSong.to_csv('eachSong.csv',encoding='utf-8')
 
 
 def calcEn(sound):
