@@ -2,7 +2,8 @@ import os, openpyxl, shutil
 from unidecode import unidecode
 import pandas as pd
 import numpy as np
-import essentia, essentia.standard, librosa.display, librosa, seaborn 
+# import essentia, essentia.standard, librosa.display
+import librosa, seaborn 
 import matplotlib.pyplot as plt
 
 hop_length = 256
@@ -30,6 +31,7 @@ for i in range(len(parts)):
         
 eachSong = pd.DataFrame(eachSong, columns=['folder', 'song'])
 eachSong.to_csv('eachSong.csv',encoding='utf-8')
+order = pd.Series.unique(eachSong['folder'])
 
 
 def calcEn(sound):
@@ -62,4 +64,3 @@ def onsetDense(ide):
 	# beforec = sum(len(onsets[0:len(onsets)/2]))
 	# afterc = sum(len(onsets[len(onsets)/2+1:]))
 	return{'before': len(onsetsbef),'after':len(onsetsaft)}
-
