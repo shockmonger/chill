@@ -30,8 +30,17 @@ for i in range(len(parts)):
         eachSong = zip(p,s)
         
 eachSong = pd.DataFrame(eachSong, columns=['folder', 'song'])
-eachSong.to_csv('eachSong.csv',encoding='utf-8')
+# eachSong.to_csv('eachSong.csv',encoding='utf-8')
 order = pd.Series.unique(eachSong['folder'])
+
+# times = []
+
+# for i in range(len(eachSong)):
+#     filename = fil+'songs/'+eachSong['folder'][i]+'/'+eachSong['song'][i]+'.mp3'
+#     x, sr = librosa.load(filename)
+#     time = len(x)/sr
+#     times.append(time)
+# eachSong['times'] = times
 
 
 def calcEn(sound):
