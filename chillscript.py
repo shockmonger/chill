@@ -43,7 +43,7 @@ order = pd.Series.unique(eachSong['folder'])
 # eachSong['times'] = times
 
 
-def calcEn(sound):
+def calcMeanEn(sound):
 	fil = sound
 	x, sr = librosa.load(fil)
 	energy = np.array([sum(abs(x[i:i+frame_length]**2)) for i in range(0, len(x), hop_length)])
@@ -52,6 +52,14 @@ def calcEn(sound):
 	meanEn = np.mean(energy)
 	return{'meanEn':meanEn,'meanRMS':meanRMS}
 
+
+
+def calcContEn(sound):
+	fil = '/home/tejaswik/Documents/CurrentProjects/chills/categoriesChills/melodic/trail/'+sound
+	x, sr = librosa.load(fil)
+	energy = np.array([sum(abs(x[i:i+frame_length]**2)) for i in range(0, len(x), hop_length)])
+	rmse = librosa.feature.rmse(x)[0]
+	return{'En':energy,'RMS':rmse}
 
 def ratioCalc(ide):
 	fil = ide
@@ -73,3 +81,16 @@ def onsetDense(ide):
 	# beforec = sum(len(onsets[0:len(onsets)/2]))
 	# afterc = sum(len(onsets[len(onsets)/2+1:]))
 	return{'before': len(onsetsbef),'after':len(onsetsaft)}
+
+def normalize(x, axis=0):
+    return klsearn.preprocessing.minmax_scale(x, axis=axis)
+
+def specCen(sound):
+	fil = '/home/tejaswik/Documents/CurrentProjects/chills/categoriesChills/melodic/trail/'+sound
+	x,sr = librosa.load(sound)
+	spectral_centroids = librosa.feature.spectral_centroid(x, sr=sr)[0]
+	frames = range(len(spectral_centroids))
+	t = librosa.frames_to_time(frames)
+	return t
+	# librosa.display.waveplot(x, sr=sr, alpha=0.4)
+	# plt.plot(t, normalize(spectral_centroids), color='r') # normalize for visualization purposes
